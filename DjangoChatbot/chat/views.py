@@ -1,9 +1,18 @@
-from django.shortcuts import render
+# chat/views.py
 
-# View for the login page
+from django.shortcuts import render, redirect
+
+def chat_home(request):
+    return render(request, 'chat/chatbot.html')
+
+def redirect_to_chat(request):
+    return redirect('chat/')
+
 def login_view(request):
-    return render(request, 'login.html')
+    # If the request method is POST, it means that the form has been submitted
+    if request.method == 'POST':
+        # if needed here we can handle the submitted data and perform the login logic
+        pass
 
-# View for the chatbot page
-def chat_view(request):
-    return render(request, 'chatbot.html')
+    # If it's a GET request, just render the login page
+    return render(request, 'chat/login.html')

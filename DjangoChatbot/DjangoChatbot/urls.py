@@ -14,11 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# DjangoChatbot/urls.py
+
 from django.contrib import admin
 from django.urls import path, include
+from chat.views import redirect_to_chat  # Imports the redirect view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('chat/', include('chat.urls')),
-
+    path('', redirect_to_chat),  # Redirects view for the root URL
+    path('chat/', include(('chat.urls', 'chat'))),  # Includes chat URLs with namespace
 ]
+
+
+
