@@ -18,12 +18,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from chat.views import login_view
 from chat.views import redirect_to_chat  # Imports the redirect view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', redirect_to_chat),  # Redirects view for the root URL
+    path('', login_view, name='root'),
     path('chat/', include(('chat.urls', 'chat'))),  # Includes chat URLs with namespace
+    path('login/', login_view, name='login'),
 ]
 
 
