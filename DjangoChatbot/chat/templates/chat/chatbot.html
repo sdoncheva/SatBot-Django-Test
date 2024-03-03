@@ -135,6 +135,12 @@
             color: var(--sidebar-icon-hover-color);
         }
 
+        .chat-logo {
+        width: 60px; 
+        height: auto; 
+        
+        }
+
         #chat-container {
             box-shadow: 000;
             border-radius: 8px;
@@ -257,27 +263,44 @@ n-chat-icon i {
     align-self: flex-start; /* Align bot messages to the left */
 }
 
+.bot-message .message-icon {
+}
+
 .user-message {
     background-color: var(--bubble-user-bg-color);
     margin-right: 10px;
     align-self: flex-end; /* Align user messages to the right */
 }
 
+.user-message .message-icon {
+}
+
 /* User and Bot Icons */
 .message-icon {
-    width: 30px; /* Icon size */
-    height: 30px;
-    border-radius: 15px; /* Makes it circular */
-    overflow: hidden; /* Ensures the image fits the circle */
-    margin-right: 10px; /* Space between icon and message */
+    width: 30px;  /* Desired width for the icons, ensuring it matches the container size */
+    height: 30px;  /* Desired height for the icons, ensuring it matches the container size */
+    border-radius: 60%;
+    overflow: hidden;  /* Ensures the image doesn't exceed the bounds of the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.message-icon img {
+    width: 100%;  /* Ensures the image attempts to fill the width of the container */
+    height: 100%;  /* Ensures the image attempts to fill the height of the container */
+    object-fit: cover;  /* Ensures the image covers the available space without distorting */
 }
 
 .bot-message .message-icon {
+    margin-right: 5px;
     order: -1; /* Moves icon to the left of the message */
 }
 
 .user-message .message-icon {
-    margin-left: 10px; /* Space between message and icon */
+    margin-left: 5px;
     order: 1; /* Moves icon to the right of the message */
 }
 
@@ -302,7 +325,7 @@ n-chat-icon i {
 <body class="light-mode">
     <div id="sidebar">
         <div class="sidebar-icon" onclick="redirectToHome()">
-            <img src="{% static 'icons/chatbot_logo.png' %}" alt="Chat Logo" style="width: 30px;">
+            <img src="{% static 'icons/chatbot_logo.png' %}" alt="Chat Logo" class="chat-logo">
         </div>
         <div class="sidebar-icon" onclick="redirectToHome()">
             <i class="fas fa-home"></i>
@@ -360,31 +383,33 @@ n-chat-icon i {
 
     var staticUrl = "{% static 'icons/' %}";
 
+    var botIconUrl = "{% static 'icons/bot.png' %}";
+    var personIconUrl = "{% static 'icons/person.png' %}";
     
     function sendMessage() {
     var input = document.getElementById("userInput");
     var message = input.value.trim();
 
     if (message !== '') {
-        var chatbox = document.getElementById("chatbox");
-        
-        // User Message
-        var userMessage = document.createElement("div");
-        userMessage.className = 'message user-message';
-        userMessage.innerHTML = "<div class='message-content'>" + message.replace(/\n/g, '<br>') + "</div><div class='message-icon'><img src='" + staticUrl + "person.png'></div>";
-        chatbox.appendChild(userMessage);
-        
-        input.value = '';
-        input.style.height = '50px';
+    var chatbox = document.getElementById("chatbox");
+    
+    // User Message
+    var userMessage = document.createElement("div");
+    userMessage.className = 'message user-message';
+    userMessage.innerHTML = "<div class='message-content'>" + message.replace(/\n/g, '<br>') + "</div><div class='message-icon'><img src='" + personIconUrl + "' alt='User Icon' class='message-icon'></div>";
+    chatbox.appendChild(userMessage);
+    
+    input.value = '';
+    input.style.height = '50px';
 
-        // Simulate a bot response
-        setTimeout(function() {
-            var botMessage = document.createElement("div");
-            botMessage.className = 'message bot-message';
-            botMessage.innerHTML = "<div class='message-icon'><img src='" + staticUrl + "bot.png'></div><div class='message-content'>Welcome to Satbot 😃, your 24/7 CS guide for USD. How can I help?</div>";
-            chatbox.appendChild(botMessage);
-            chatbox.scrollTop = chatbox.scrollHeight;
-        }, 500);
+    // Simulate a bot response
+    setTimeout(function() {
+        var botMessage = document.createElement("div");
+        botMessage.className = 'message bot-message';
+        botMessage.innerHTML = "<div class='message-icon'><img src='" + botIconUrl + "' alt='Bot Icon' class='message-icon'></div><div class='message-content'>Welcome to Satbot 😃, your 24/7 CS guide for USD. How can I help?</div>";
+        chatbox.appendChild(botMessage);
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }, 500);
     }
 }
 
